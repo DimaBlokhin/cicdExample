@@ -2,7 +2,9 @@ stages:
   - test
   - build
   - test2
-  - deploy
+  - dev
+  - stage
+  - prod
 
 install_env:
   stage: test
@@ -30,7 +32,34 @@ tests_after_build:
   script:
     - echo " test after build 1 --------------------"
 
-deploy_job:
-  stage: deploy
+deploy dev:
+  stage: dev
   script:
-    - ./deploy.sh
+    - echo 'running ./build.sh'
+  when: manual
+  only:
+    refs:
+      - tags
+      - master
+      - /^release.*$
+
+deploy stage:
+  stage: stage
+  script:
+    - echo 'running ./build.sh'
+  when: manual
+  only:
+    refs:
+      - tags
+      - master
+      - /^release.*$
+
+deploy prod:
+  stage: prod
+  script:
+    - echo 'running ./build.sh'
+  when: manual
+  only:
+    refs:
+      - tags
+      - master
