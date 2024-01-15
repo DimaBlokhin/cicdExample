@@ -32,22 +32,13 @@ tests_after_build:
   script:
     - echo " test after build 1 --------------------"
 
-deploy dev:
-  stage: dev
-  script:
-    - echo 'running ./build.sh'
-  when: manual
-  only:
-    refs:
-      - tags
-      - master
-      - /^release.*$
-
-deploy stage:
+deploy website:
   stage: stage
   script:
-    - echo 'running ./build.sh'
+    - cp -rf ./html/* /var/www/htnl
   when: manual
+  tags:
+    - stage-shell
   only:
     refs:
       - tags
